@@ -5,10 +5,11 @@ numpy>=1.24.0
 scipy>=1.10.0
 pandas>=2.0.0
 
-# Computer vision and image processing
-opencv-python>=4.8.0
+# Computer vision (headless version for cloud deployment)
+opencv-python-headless>=4.8.0
 scikit-image>=0.21.0
-pillow>=10.0.0
+imageio>=2.31.0
+imageio-ffmpeg>=0.4.90
 
 # Tracking and filtering
 filterpy>=1.4.5
