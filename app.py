@@ -76,6 +76,12 @@ with st.sidebar:
         help="Synthetic data uses physics-based simulation"
     )
     
+    # Set default values
+    n_sperm = 15
+    duration = 2.5
+    v0 = 50.0
+    Dr = 0.5
+    
     if data_source == "Generate Synthetic Data":
         st.subheader("🧬 Simulation Parameters")
         
