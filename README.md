@@ -329,7 +329,7 @@ If you find this pipeline useful in your research, please consider citing:
   author = {Faheem},
   title = {Sperm Quantification and Motility Analysis Pipeline},
   year = {2024},
-  url = {https://github.com/yourusername/sperm-quantification}
+  url = {https://github.com/Faheem8585/sperm-quantification}
 }
 ```
 
