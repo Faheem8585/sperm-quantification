@@ -1,0 +1,57 @@
+# Microfluidic-specific configuration
+# Extends default.yaml with parameters optimized for microfluidic channel analysis
+
+# Inherits from default.yaml, only overrides are specified here
+
+# Video input - higher resolution typical for microfluidics
+video:
+  pixel_size_um: 0.065  # Higher magnification
+  fps: 60  # Higher frame rate for detailed tracking
+
+# Microfluidic channel geometry
+microfluidic:
+  channel_width_um: 100
+  channel_height_um: 30
+  channel_length_um: 5000
+  wall_distance_bins: 30
+  flow_direction: [1, 0]  # Flow along x-axis
+  flow_velocity_um_s: 100  # Imposed flow velocity
+  
+  # Analysis regions
+  regions:
+    - name: "entrance"
+      x_range: [0, 500]
+    - name: "middle"
+      x_range: [2000, 3000]
+    - name: "exit"
+      x_range: [4500, 5000]
+
+# Detection - adjusted for confined conditions
+detection:
+  blob:
+    min_sigma: 1.0
+    max_sigma: 2.5
+    threshold: 0.15  # Slightly higher for clearer contrast
+
+# Tracking - tighter constraints for confined motion
+tracking:
+  max_distance: 20  # Reduced for confined trajectories
+  max_gap: 3
+  min_track_length: 30  # Longer tracks for statistical power
+
+# Metrics - focus on wall interactions
+metrics:
+  wall_analysis:
+    enabled: true
+    near_wall_threshold_um: 10  # Distance considered "near wall"
+    accumulation_bins: 50
+  
+  rheotaxis:
+    enabled: true
+    upstream_threshold: 0  # Count cells swimming against flow
+
+# Visualization - channel-specific
+visualization:
+  show_channel_boundaries: true
+  show_flow_field: true
+  show_wall_distance_heatmap: true

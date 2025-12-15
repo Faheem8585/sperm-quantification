@@ -1,0 +1,115 @@
+# Default configuration for sperm quantification pipeline
+# All parameters can be overridden via command-line or custom YAML files
+
+# Video input settings
+video:
+  fps: 30  # Frames per second (if not in metadata)
+  pixel_size_um: 0.1  # Micrometers per pixel
+  duration_s: null  # Duration in seconds (null = entire video)
+
+# Preprocessing parameters
+preprocessing:
+  normalize: true
+  denoising:
+    method: "bilateral"  # Options: "gaussian", "bilateral", "nlm"
+    gaussian_sigma: 1.0
+    bilateral_sigma_color: 75
+    bilateral_sigma_space: 75
+  background_subtraction:
+    enabled: true
+    method: "mog2"  # Options: "median", "mog2"
+    history: 500
+    learning_rate: 0.01
+
+# Detection parameters
+detection:
+  method: "blob"  # Options: "blob", "watershed", "ml"
+  blob:
+    min_sigma: 1.5
+    max_sigma: 3.0
+    num_sigma: 10
+    threshold: 0.1
+    overlap: 0.5
+    min_area: 10  # pixels
+    max_area: 200  # pixels
+  watershed:
+    min_distance: 5
+    threshold_rel: 0.5
+
+# Tracking parameters
+tracking:
+  method: "kalman"  # Options: "kalman", "sort", "nearest_neighbor"
+  max_distance: 30  # pixels
+  max_gap: 5  # frames
+  min_track_length: 10  # frames
+  kalman:
+    process_noise: 0.1
+    measurement_noise: 0.1
+  sort:
+    max_age: 5
+    min_hits: 3
+    iou_threshold: 0.3
+
+# Motility metrics parameters
+metrics:
+  velocity:
+    time_window: 1.0  # seconds for smoothing
+    min_points: 5  # minimum points for metric calculation
+  trajectory:
+    msd_max_lag: null  # frames (null = auto)
+    persistence_lag: 20  # frames
+  motility_classification:
+    progressive_lin_threshold: 0.5
+    progressive_vsl_threshold: 25  # um/s
+    hyperactivated_vcl_threshold: 150  # um/s
+    hyperactivated_lin_threshold: 0.3
+
+# Statistical analysis
+analysis:
+  confidence_level: 0.95
+  bootstrap_iterations: 1000
+  multiple_testing_correction: "fdr"  # Options: "bonferroni", "fdr", "none"
+
+# Microfluidic analysis
+microfluidic:
+  channel_width_um: 100
+  channel_height_um: 30
+  wall_distance_bins: 20
+  flow_direction: [1, 0]  # Unit vector
+
+# Visualization
+visualization:
+  trajectory_color_by: "velocity"  # Options: "velocity", "track_id", "time"
+  colormap: "viridis"
+  figure_dpi: 300
+  video_fps: 30
+  max_trajectory_length: 100  # frames to display
+
+# Simulation parameters
+simulation:
+  n_particles: 50
+  duration: 10.0  # seconds
+  dt: 0.033  # seconds (time step)
+  active_brownian:
+    v0: 50  # um/s (self-propulsion speed)
+    Dr: 0.5  # rad^2/s (rotational diffusion)
+    Dt: 1.0  # um^2/s (translational diffusion)
+  domain:
+    width: 500  # um
+    height: 500  # um
+    boundary: "reflective"  # Options: "reflective", "periodic"
+
+# Output settings
+output:
+  save_trajectories: true
+  save_metrics: true
+  save_visualizations: true
+  save_annotated_video: false
+  results_dir: "data/results"
+  format: "csv"  # Options: "csv", "hdf5", "json"
+
+# Logging
+logging:
+  level: "INFO"  # Options: "DEBUG", "INFO", "WARNING", "ERROR"
+  file: "sperm_analysis.log"
+  console: true
